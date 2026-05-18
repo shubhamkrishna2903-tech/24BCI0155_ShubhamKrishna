@@ -1,0 +1,61 @@
+show databases;
+
+create database VITCampus1;
+
+drop database VITCampus1;
+
+use vitcampus;
+
+create table CSE(
+sid int8,
+sname varchar(50),
+smarks int1
+);
+create table Mech(
+sid int8,
+sname varchar(50),
+smarks int1
+);
+create table EEE(
+sid int8,
+sname varchar(50),
+smarks int1
+);
+
+show tables from vitcampus;
+
+select * from cse;
+select * from eee;
+select * from mech;
+
+insert into cse values (194, 'Mahi' , 66);
+insert into eee values (14,'Arav',24);
+insert into mech values (5,'Jahnvi',96);
+
+
+
+MECH TABLE
+1	Vikrant	100
+2	Tiya	99
+3	Anuj	98
+4	Sajal	97
+5	Jahnvi	96
+
+EEE TABLE 
+10	Afzal	25
+11	Harsh	22
+12	Shashwat	27
+13	Ansh	17
+14	Arav	24
+
+CSE TABLE
+101	Shubham	80
+101	Shubham	80
+101	Shubham	80
+101	Shubham	80
+101	Shubham	80
+191	Suhani	79
+192	Sumeet	89
+193	Rahul	96
+194	Mahi	66
+
