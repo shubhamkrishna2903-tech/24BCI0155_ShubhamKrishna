@@ -1,0 +1,139 @@
+create database shubh;
+use shubh;
+CREATE TABLE Departments (
+dept_id INT PRIMARY KEY,
+dept_name VARCHAR(50) NOT NULL,
+location VARCHAR(50)
+);
+INSERT INTO Departments (dept_id, dept_name, location) VALUES
+(10, 'Finance', 'New York'),
+(20, 'IT', 'San Francisco'),
+(30, 'Sales', 'Chicago'),
+(40, 'Marketing', 'Los Angeles');
+-- Create Jobs Table
+CREATE TABLE Jobs (
+job_id INT PRIMARY KEY,
+job_title VARCHAR(50),
+min_salary DECIMAL(10,2),
+max_salary DECIMAL(10,2)
+);
+INSERT INTO Jobs (job_id, job_title, min_salary, max_salary) VALUES
+(1, 'Manager', 80000.00, 150000.00),
+(2, 'Developer', 60000.00, 110000.00),
+(3, 'Analyst', 50000.00, 90000.00),
+(4, 'Intern', 30000.00, 45000.00);
+-- Create Employees Table
+CREATE TABLE Employees (
+emp_id INT PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+manager_id INT,
+dept_id INT,
+job_id INT,
+salary DECIMAL(10,2),
+hire_date DATE,
+FOREIGN KEY (dept_id) REFERENCES Departments(dept_id),
+FOREIGN KEY (job_id) REFERENCES Jobs(job_id)
+);
+INSERT INTO Employees (emp_id, name, manager_id, dept_id, job_id, salary, hire_date) VALUES
+-- Top Level Manager
+(501, 'Alice', NULL, 10, 1, 120000.00, '2015-01-01'),
+-- IT Dept Staff
+(503, 'Charlie', 501, 20, 1, 95000.00, '2016-05-20'),
+(504, 'David', 503, 20, 2, 85000.00, '2019-11-01'),
+(505, 'Eve', 503, 20, 2, 78000.00, '2020-02-15'),
+-- Finance Dept Staff
+(502, 'Bob', 501, 10, 3, 55000.00, '2018-03-12'),
+-- Sales Dept Staff
+(506, 'Frank', 501, 30, 3, 52000.00, '2021-06-21'),
+-- Marketing (unassigned to manager for complexity)
+(507, 'Grace', NULL, 40, 2, 72000.00, '2022-08-10');
+
+
+
+-- question 2
+select name, salary from employees where salary > (
+    select avg(salary) from employees where dept_id = (
+        select dept_id from departments where dept_name = 'IT'
+    )
+);
+
+-- question 1
+select e.name, j.job_title, d.dept_name from employees e 
+join jobs j on e.job_id = j.job_id 
+join departments d on e.dept_id = d.dept_id;
+
+-- question 3
+select d.dept_name, sum(e.salary) as total_salary from Employees e
+join departments d on e.dept_id = d.dept_id
+group by d.dept_name;
+
+-- question 4
+select d.dept_name, count(e.emp_id) as emp_count,avg(e.salary) as avg_salary from employees e
+join departments d on e.dept_id = d.dept_id
+group by d.dept_name
+having count(e.emp_id) > 2 and avg(e.salary) > 70000;
+
+-- question 5
+select e.name as employee, m.name as manager
+from employees e
+left join employees m on e.manager_id = m.emp_id;
+
+-- question 6
+select name, salary from employees order by salary desc
+limit 3;
+
+-- question 7
+select e.name, j.job_title, d.location from employees e
+join jobs j on e.job_id = j.job_id
+join departments d on e.dept_id = d.dept_id where j.job_title = 'Developer' and d.location = 'San Francisco';
+
+-- question 8
+select year(hire_date) as hire_year, count(*) as employees_hired from employees
+group by year(hire_date)
+order by hire_year;
+
+-- question 9
+select j.job_title, max(e.salary) as max_salary from employees e
+join jobs j on e.job_id = j.job_id
+group by j.job_title
+having max(e.salary) < 100000;
+
+-- quesdtion 10
+select name from employees where dept_id = (
+    select dept_id from employees where name = 'David'
+)
+and name != 'David';
+
+-- question 11
+select d.dept_name, count(e.emp_id) as employee_count from departments d
+left join employees e on d.dept_id = e.dept_id
+group by d.dept_name;
+
+-- question 12
+select name, salary, hire_date from employees where year(hire_date) between 2018 and 2020 and salary > 60000;
+
+-- question 13
+select e.name, e.salary, e.dept_id from employees e where e.salary > (
+    select avg(salary) from employees where dept_id = e.dept_id
+);
+
+-- question 14
+select e.name, j.job_title, e.salary from employees e
+join jobs j on e.job_id = j.job_id where e.emp_id = 504;
+
+-- question 15
+select manager_id, min(salary) as min_reportee_salary from employees where manager_id is not NULL
+group by manager_id;
+
+-- question 16
+select dept_name from departments where dept_id not in (
+    select distinct e.dept_id from employees e
+    join jobs j on e.job_id = j.job_id where j.job_title = 'Analyst'
+);
+
+-- question 17
+select max(salary) - min(salary) as salary_difference from employees;
+
+-- question 18
+select e.name, e.hire_date, d.dept_name, e.salary from employees e join departments d on e.dept_id = d.dept_id order by d.dept_name asc, e.salary desc;
+
