@@ -1,0 +1,153 @@
+use shubh;
+create database task2;
+use task2;
+-- departments table
+create table departments (
+    dept_id int primary key, dept_name varchar(50) not null, location_id varchar(50) not null
+);
+insert into departments (dept_id, dept_name, location_id) values
+(10, 'Consulting', 'NYC'),
+(20, 'Engineering', 'SF'),
+(30, 'R&D', 'London'),
+(40, 'Sales', 'NYC'),
+(50, 'HR', 'SF'),
+(60, 'Admin', 'London');
+-- employees table
+create table employees (
+    employee_id int primary key, employee_name varchar(50) not null,
+    manager_id int,
+    dept_id int,
+    salary decimal(10,2) not null,
+    foreign key (dept_id) references departments(dept_id),
+    foreign key (manager_id) references employees(employee_id)
+);
+insert into employees (employee_id, employee_name, manager_id, dept_id, salary) values
+(100, 'Alice Smith (CEO)', null, 10, 180000.00),
+(101, 'Bob Johnson', 100, 20, 120000.00),
+(102, 'Charlie Brown', 101, 20, 95000.00),
+(103, 'Diana Prince', 100, 30, 110000.00),
+(104, 'Evan Clark', 103, 30, 85000.00),
+(105, 'Fiona Glen', 101, 20, 90000.00),
+(106, 'George King', 100, 40, 75000.00),
+(107, 'Hannah Lee', 103, 30, 88000.00),
+(108, 'Ivan Rossi', 100, 50, 60000.00),
+(109, 'Jane Doe', 101, 20, 125000.00),
+(110, 'Kevin Blue', 104, 30, 86000.00);
+-- projects table
+create table projects (
+    project_id int primary key,
+    project_name varchar(50) not null,
+    client_name varchar(50) not null,
+    start_date date not null,
+    dept_id int,
+    foreign key (dept_id) references departments(dept_id)
+);
+insert into projects (project_id, project_name, client_name, start_date, dept_id) values
+(5001, 'Aurora Migration', 'GlobalTech Solutions', '2023-01-15', 20),
+(5002, 'Synergy App Dev', 'Zenith Corp', '2023-05-20', 30),
+(5003, 'Q4 Sales Strategy', 'Apex Industries', '2024-01-01', 40),
+(5004, 'Global Expansion', 'GlobalTech Solutions', '2024-03-10', 10),
+(5005, 'Internal HR Tool', 'Internal', '2024-02-01', 50),
+(5006, 'Data Analytics', 'Zenith Corp', '2022-11-01', 20),
+(5007, 'Future Tech R&D', 'R&D Dept', '2024-06-01', 30);
+-- assignments table
+create table assignments (
+    assignment_id int primary key,
+    employee_id int,
+    project_id int,
+    hours_worked int not null,
+    start_date date not null,
+    foreign key (employee_id) references employees(employee_id),
+    foreign key (project_id) references projects(project_id)
+);
+insert into assignments (assignment_id, employee_id, project_id, hours_worked, start_date) values
+(1,  101, 5001, 150, '2023-01-15'),
+(2,  102, 5001, 160, '2023-01-15'),
+(3,  105, 5001, 140, '2023-02-01'),
+(4,  103, 5002, 80,  '2023-05-20'),
+(5,  104, 5002, 70,  '2023-06-01'),
+(6,  106, 5003, 5,   '2024-01-01'),
+(7,  100, 5004, 20,  '2024-03-10'),
+(8,  107, 5002, 75,  '2023-05-25'),
+(9,  109, 5006, 200, '2022-11-01'),
+(10, 101, 5006, 250, '2022-11-01'),
+(11, 102, 5006, 180, '2022-12-01'),
+(12, 110, 5007, 10,  '2024-06-01');
+
+
+-- question 1
+select e.employee_name, d.dept_name, d.location_id from employees e
+join departments d on e.dept_id = d.dept_id;
+
+-- question 2
+select p.project_name, p.client_name, sum(a.hours_worked) as total_hours from projects p
+join assignments a on p.project_id = a.project_id
+join departments d on p.dept_id = d.dept_id where d.dept_name = 'Consulting'
+group by p.project_name, p.client_name;
+
+-- question 3
+select distinct e.employee_name, p.project_name from employees e
+join assignments a on e.employee_id = a.employee_id
+join projects p on a.project_id = p.project_id where p.client_name = 'GlobalTech Solutions';
+
+-- question 4
+select d.dept_name from departments d
+left join employees e on d.dept_id = e.dept_id where e.dept_id is null;
+
+-- question 6
+select e.employee_name, avg(a.hours_worked) as avg_hours from employees e
+join assignments a on e.employee_id = a.employee_id
+group by e.employee_name;
+
+-- question 7
+select d.dept_name, avg(e.salary) as avg_dept_salary from employees e
+join departments d on e.dept_id = d.dept_id
+group by d.dept_name having avg(e.salary) > (
+    select avg(salary) from employees
+);
+
+-- question 8
+select p.client_name, sum(a.hours_worked) as total_hours from projects p
+join assignments a on p.project_id = a.project_id group by p.client_name having sum(a.hours_worked) > 500;
+
+-- question 10
+select p.project_name, count(a.employee_id) as total_assigned from projects p
+join assignments a on p.project_id = a.project_id group by p.project_name having count(a.employee_id) > 5;
+
+-- question 11
+select e.employee_name from employees e where not exists (
+    select p.project_id from projects p join departments d on p.dept_id = d.dept_id where d.dept_name = 'R&D' and p.project_id not in (
+        select a.project_id from assignments a where a.employee_id = e.employee_id
+    )
+);
+
+-- question 12
+select distinct d.dept_name from departments d
+join employees e on d.dept_id = e.dept_id
+join assignments a on e.employee_id = a.employee_id
+group by d.dept_name, e.employee_id having count(distinct a.project_id) > 1;
+
+-- question 13
+select e.employee_name, p.project_name, a.hours_worked from employees e
+join assignments a on e.employee_id = a.employee_id
+join projects p on a.project_id = p.project_id where a.hours_worked < 10;
+
+-- question 14
+select p.project_name from projects p left join assignments a on p.project_id = a.project_id where a.project_id is null;
+
+-- question 15
+select e.employee_name, e.salary from employees e where e.salary > (
+    select max(salary) from employees where dept_id = e.dept_id and employee_id != e.employee_id
+);
+
+-- question 16
+select e.employee_name, min(a.start_date) as oldest_assignment from employees e
+join assignments a on e.employee_id = a.employee_id group by e.employee_name order by oldest_assignment;
+
+-- question 17
+select project_name, start_date from projects where date_format(start_date, '%Y') = '2023';
+
+-- question 18
+select e.employee_name, ifnull(m.employee_name, 'CEO') as manager_name from employees e
+left join employees m on e.manager_id = m.employee_id;
+
