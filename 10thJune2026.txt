@@ -1,0 +1,348 @@
+Microsoft Windows [Version 10.0.26200.8457]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>net stop MongoDB
+The MongoDB Server (MongoDB) service is stopping.
+The MongoDB Server (MongoDB) service was stopped successfully.
+
+
+C:\Windows\System32>sc query MongoDB
+
+SERVICE_NAME: MongoDB
+        TYPE               : 10  WIN32_OWN_PROCESS
+        STATE              : 1  STOPPED
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x0
+
+C:\Windows\System32>Kill the PRIMARY window
+'Kill' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Windows\System32>net start MongoDB
+The MongoDB Server (MongoDB) service is starting.
+The MongoDB Server (MongoDB) service was started successfully.
+
+
+C:\Windows\System32>
+
+
+
+
+
+rs.initiate({
+  _id: "myReplSet",
+  members: [
+    { _id: 0, host: "localhost:27017" },
+    { _id: 1, host: "localhost:27018" },
+    { _id: 2, host: "localhost:27019" }
+  ]
+})
+{
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781096839, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781096839, i: 1 })
+}
+rs.status()
+{
+      lastWrittenWallTime: 2026-06-10T13:07:19.829Z,
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 0,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 1,
+      name: 'localhost:27018',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 9,
+      optime: { ts: Timestamp({ t: 1781096839, i: 1 }), t: Long('-1') },
+      optimeDurable: { ts: Timestamp({ t: 1781096839, i: 1 }), t: Long('-1') },
+      optimeWritten: { ts: Timestamp({ t: 1781096839, i: 1 }), t: Long('-1') },
+      optimeDate: 2026-06-10T13:07:19.000Z,
+      optimeDurableDate: 2026-06-10T13:07:19.000Z,
+      optimeWrittenDate: 2026-06-10T13:07:19.000Z,
+      lastAppliedWallTime: 2026-06-10T13:07:19.829Z,
+      lastDurableWallTime: 2026-06-10T13:07:19.829Z,
+      lastWrittenWallTime: 2026-06-10T13:07:19.829Z,
+      lastHeartbeat: 2026-06-10T13:07:29.613Z,
+      lastHeartbeatRecv: 2026-06-10T13:07:29.466Z,
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 0
+    },
+    {
+      _id: 2,
+      name: 'localhost:27019',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 9,
+      optime: { ts: Timestamp({ t: 1781096839, i: 1 }), t: Long('-1') },
+      optimeDurable: { ts: Timestamp({ t: 1781096839, i: 1 }), t: Long('-1') },
+      optimeWritten: { ts: Timestamp({ t: 1781096839, i: 1 }), t: Long('-1') },
+      optimeDate: 2026-06-10T13:07:19.000Z,
+      optimeDurableDate: 2026-06-10T13:07:19.000Z,
+      optimeWrittenDate: 2026-06-10T13:07:19.000Z,
+      lastAppliedWallTime: 2026-06-10T13:07:19.829Z,
+      lastDurableWallTime: 2026-06-10T13:07:19.829Z,
+      lastWrittenWallTime: 2026-06-10T13:07:19.829Z,
+      lastHeartbeat: 2026-06-10T13:07:29.613Z,
+      lastHeartbeatRecv: 2026-06-10T13:07:29.486Z,
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 0
+    }
+  ],
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781096839, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781096839, i: 1 })
+}
+use clg
+switched to db clg
+db.students.insertOne({
+  name: "Shubham",
+  course: "MongoDB"
+})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a2961b0f6b07ba3393fa6a3')
+}
+rs.secondaryOk()
+DeprecationWarning: .setSecondaryOk() is deprecated. Use .setReadPref("primaryPreferred") instead
+Setting read preference from "primary" to "primaryPreferred"
+rs.setReadPref("primaryPreferred")
+TypeError: rs.setReadPref is not a function
+Kill the PRIMARY window 
+SyntaxError: Missing semicolon. (1:4)
+
+> 1 | Kill the PRIMARY window 
+    |     ^
+rs.status()
+{
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      electionTime: Timestamp({ t: 1781096850, i: 1 }),
+      electionDate: 2026-06-10T13:07:30.000Z,
+      configVersion: 1,
+      configTerm: 1,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 1,
+      name: 'localhost:27018',
+      health: 0,
+      state: 8,
+      stateStr: '(not reachable/healthy)',
+      uptime: 0,
+      optime: { ts: Timestamp({ t: 0, i: 0 }), t: Long('-1') },
+      optimeDurable: { ts: Timestamp({ t: 0, i: 0 }), t: Long('-1') },
+      optimeWritten: { ts: Timestamp({ t: 0, i: 0 }), t: Long('-1') },
+      optimeDate: 1970-01-01T00:00:00.000Z,
+      optimeDurableDate: 1970-01-01T00:00:00.000Z,
+      optimeWrittenDate: 1970-01-01T00:00:00.000Z,
+      lastAppliedWallTime: 2026-06-10T13:12:11.272Z,
+      lastDurableWallTime: 2026-06-10T13:12:11.272Z,
+      lastWrittenWallTime: 2026-06-10T13:12:11.272Z,
+      lastHeartbeat: 2026-06-10T13:20:14.164Z,
+      lastHeartbeatRecv: 2026-06-10T13:12:13.793Z,
+      pingMs: Long('0'),
+      lastHeartbeatMessage: 'Error connecting to localhost:27018 (127.0.0.1:27018) :: caused by :: onInvoke :: caused by :: No connection could be made because the target machine actively refused it.',
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    },
+    {
+      _id: 2,
+      name: 'localhost:27019',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 777,
+      optime: { ts: Timestamp({ t: 1781097611, i: 1 }), t: Long('1') },
+      optimeDurable: { ts: Timestamp({ t: 1781097611, i: 1 }), t: Long('1') },
+      optimeWritten: { ts: Timestamp({ t: 1781097611, i: 1 }), t: Long('1') },
+      optimeDate: 2026-06-10T13:20:11.000Z,
+      optimeDurableDate: 2026-06-10T13:20:11.000Z,
+      optimeWrittenDate: 2026-06-10T13:20:11.000Z,
+      lastAppliedWallTime: 2026-06-10T13:20:11.736Z,
+      lastDurableWallTime: 2026-06-10T13:20:11.736Z,
+      lastWrittenWallTime: 2026-06-10T13:20:11.736Z,
+      lastHeartbeat: 2026-06-10T13:20:15.946Z,
+      lastHeartbeatRecv: 2026-06-10T13:20:16.362Z,
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: 'localhost:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    }
+  ],
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781097611, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781097611, i: 1 })
+}
+rs.status()
+{
+  set: 'myReplSet',
+  date: 2026-06-10T13:21:16.232Z,
+  myState: 1,
+  term: Long('1'),
+  syncSourceHost: '',
+  syncSourceId: -1,
+  heartbeatIntervalMillis: Long('2000'),
+  majorityVoteCount: 2,
+  writeMajorityCount: 2,
+  votingMembersCount: 3,
+  writableVotingMembersCount: 3,
+  optimes: {
+    lastCommittedOpTime: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+    lastCommittedWallTime: 2026-06-10T13:21:09.713Z,
+    readConcernMajorityOpTime: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+    appliedOpTime: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+    durableOpTime: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+    writtenOpTime: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+    lastAppliedWallTime: 2026-06-10T13:21:09.713Z,
+    lastDurableWallTime: 2026-06-10T13:21:09.713Z,
+    lastWrittenWallTime: 2026-06-10T13:21:09.713Z
+  },
+  lastStableRecoveryTimestamp: Timestamp({ t: 1781097611, i: 1 }),
+  electionCandidateMetrics: {
+    lastElectionReason: 'electionTimeout',
+    lastElectionDate: 2026-06-10T13:07:30.697Z,
+    electionTerm: Long('1'),
+    lastCommittedOpTimeAtElection: { ts: Timestamp({ t: 1781096839, i: 1 }), t: Long('-1') },
+    lastSeenWrittenOpTimeAtElection: { ts: Timestamp({ t: 1781096839, i: 1 }), t: Long('-1') },
+    lastSeenOpTimeAtElection: { ts: Timestamp({ t: 1781096839, i: 1 }), t: Long('-1') },
+    numVotesNeeded: 2,
+    priorityAtElection: 1,
+    electionTimeoutMillis: Long('10000'),
+    numCatchUpOps: Long('0'),
+    newTermStartDate: 2026-06-10T13:07:30.867Z,
+    wMajorityWriteAvailabilityDate: 2026-06-10T13:07:31.399Z
+  },
+  members: [
+    {
+      _id: 0,
+      name: 'localhost:27017',
+      health: 1,
+      state: 1,
+      stateStr: 'PRIMARY',
+      uptime: 908,
+      optime: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+      optimeDate: 2026-06-10T13:21:09.000Z,
+      optimeWritten: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+      optimeWrittenDate: 2026-06-10T13:21:09.000Z,
+      lastAppliedWallTime: 2026-06-10T13:21:09.713Z,
+      lastDurableWallTime: 2026-06-10T13:21:09.713Z,
+      lastWrittenWallTime: 2026-06-10T13:21:09.713Z,
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      electionTime: Timestamp({ t: 1781096850, i: 1 }),
+      electionDate: 2026-06-10T13:07:30.000Z,
+      configVersion: 1,
+      configTerm: 1,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 1,
+      name: 'localhost:27018',
+      health: 0,
+      state: 8,
+      stateStr: '(not reachable/healthy)',
+      uptime: 0,
+      optime: { ts: Timestamp({ t: 0, i: 0 }), t: Long('-1') },
+      optimeDurable: { ts: Timestamp({ t: 0, i: 0 }), t: Long('-1') },
+      optimeWritten: { ts: Timestamp({ t: 0, i: 0 }), t: Long('-1') },
+      optimeDate: 1970-01-01T00:00:00.000Z,
+      optimeDurableDate: 1970-01-01T00:00:00.000Z,
+      optimeWrittenDate: 1970-01-01T00:00:00.000Z,
+      lastAppliedWallTime: 2026-06-10T13:12:11.272Z,
+      lastDurableWallTime: 2026-06-10T13:12:11.272Z,
+      lastWrittenWallTime: 2026-06-10T13:12:11.272Z,
+      lastHeartbeat: 2026-06-10T13:21:14.628Z,
+      lastHeartbeatRecv: 2026-06-10T13:12:13.793Z,
+      pingMs: Long('0'),
+      lastHeartbeatMessage: 'Error connecting to localhost:27018 (127.0.0.1:27018) :: caused by :: onInvoke :: caused by :: No connection could be made because the target machine actively refused it.',
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    },
+    {
+      _id: 2,
+      name: 'localhost:27019',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 836,
+      optime: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+      optimeDurable: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+      optimeWritten: { ts: Timestamp({ t: 1781097669, i: 1 }), t: Long('1') },
+      optimeDate: 2026-06-10T13:21:09.000Z,
+      optimeDurableDate: 2026-06-10T13:21:09.000Z,
+      optimeWrittenDate: 2026-06-10T13:21:09.000Z,
+      lastAppliedWallTime: 2026-06-10T13:21:09.713Z,
+      lastDurableWallTime: 2026-06-10T13:21:09.713Z,
+      lastWrittenWallTime: 2026-06-10T13:21:09.713Z,
+      lastHeartbeat: 2026-06-10T13:21:16.139Z,
+      lastHeartbeatRecv: 2026-06-10T13:21:14.640Z,
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: 'localhost:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    }
+  ],
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781097669, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781097669, i: 1 })
+}
