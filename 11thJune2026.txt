@@ -1,0 +1,527 @@
+in 127.0.0.1:27019
+
+rs.initiate({
+  _id: "configReplSet",
+  configsvr: true,
+  members: [
+    { _id: 0, host: "localhost:27019" }
+  ]
+})
+{
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781183099, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781183099, i: 1 })
+}
+rs.status()
+{
+  set: 'configReplSet',
+  date: 2026-06-11T13:05:09.045Z,
+  myState: 1,
+  term: Long('1'),
+  syncSourceHost: '',
+  syncSourceId: -1,
+  configsvr: true,
+  heartbeatIntervalMillis: Long('2000'),
+  majorityVoteCount: 1,
+  writeMajorityCount: 1,
+  votingMembersCount: 1,
+  writableVotingMembersCount: 1,
+  optimes: {
+    lastCommittedOpTime: { ts: Timestamp({ t: 1781183108, i: 1 }), t: Long('1') },
+    lastCommittedWallTime: 2026-06-11T13:05:08.417Z,
+    readConcernMajorityOpTime: { ts: Timestamp({ t: 1781183108, i: 1 }), t: Long('1') },
+    appliedOpTime: { ts: Timestamp({ t: 1781183108, i: 1 }), t: Long('1') },
+    durableOpTime: { ts: Timestamp({ t: 1781183108, i: 1 }), t: Long('1') },
+    writtenOpTime: { ts: Timestamp({ t: 1781183108, i: 1 }), t: Long('1') },
+    lastAppliedWallTime: 2026-06-11T13:05:08.417Z,
+    lastDurableWallTime: 2026-06-11T13:05:08.417Z,
+    lastWrittenWallTime: 2026-06-11T13:05:08.417Z
+  },
+  lastStableRecoveryTimestamp: Timestamp({ t: 1781183099, i: 1 }),
+  electionCandidateMetrics: {
+    lastElectionReason: 'electionTimeout',
+    lastElectionDate: 2026-06-11T13:04:59.832Z,
+    electionTerm: Long('1'),
+    lastCommittedOpTimeAtElection: { ts: Timestamp({ t: 1781183099, i: 1 }), t: Long('-1') },
+    lastSeenWrittenOpTimeAtElection: { ts: Timestamp({ t: 1781183099, i: 1 }), t: Long('-1') },
+    lastSeenOpTimeAtElection: { ts: Timestamp({ t: 1781183099, i: 1 }), t: Long('-1') },
+    numVotesNeeded: 1,
+    priorityAtElection: 1,
+    electionTimeoutMillis: Long('10000'),
+    newTermStartDate: 2026-06-11T13:04:59.955Z,
+    wMajorityWriteAvailabilityDate: 2026-06-11T13:05:00.337Z
+  },
+  members: [
+    {
+      _id: 0,
+      name: 'localhost:27019',
+      health: 1,
+      state: 1,
+      stateStr: 'PRIMARY',
+      uptime: 52,
+      optime: { ts: Timestamp({ t: 1781183108, i: 1 }), t: Long('1') },
+      optimeDate: 2026-06-11T13:05:08.000Z,
+      optimeWritten: { ts: Timestamp({ t: 1781183108, i: 1 }), t: Long('1') },
+      optimeWrittenDate: 2026-06-11T13:05:08.000Z,
+      lastAppliedWallTime: 2026-06-11T13:05:08.417Z,
+      lastDurableWallTime: 2026-06-11T13:05:08.417Z,
+      lastWrittenWallTime: 2026-06-11T13:05:08.417Z,
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: 'Could not find member to sync from',
+      electionTime: Timestamp({ t: 1781183099, i: 2 }),
+      electionDate: 2026-06-11T13:04:59.000Z,
+      configVersion: 1,
+      configTerm: 1,
+      self: true,
+      lastHeartbeatMessage: ''
+    }
+  ],
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781183108, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781183108, i: 1 })
+}
+
+
+in 127.0.0.1:27011
+
+rs.initiate({
+  _id: "shard1ReplSet",
+  members: [
+    { _id: 0, host: "localhost:27011" }
+  ]
+})
+
+{
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781183176, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781183176, i: 1 })
+}
+
+
+in 127.0.0.1:27012
+
+rs.initiate({
+  _id: "shard2ReplSet",
+  members: [
+    { _id: 0, host: "localhost:27012" }
+  ]
+})
+{
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781183233, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781183233, i: 1 })
+}
+
+
+in 127.0.0.1:27017
+
+sh.addShard("shard1ReplSet/localhost:27011")
+{
+  shardAdded: 'shard1ReplSet',
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781183298, i: 40 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781183298, i: 40 })
+}
+sh.addShard("shard2ReplSet/localhost:27012")
+{
+  shardAdded: 'shard2ReplSet',
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781183308, i: 20 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781183308, i: 20 })
+}
+sh.status()
+shardingVersion
+{
+  _id: ObjectId('6a2ab27c6b6d3217f5080610'),
+  clusterId: ObjectId('6a2ab27c6b6d3217f508060f')
+}
+shards
+[
+  {
+    _id: 'shard1ReplSet',
+    host: 'shard1ReplSet/localhost:27011',
+    topologyTime: Timestamp({ t: 1781183298, i: 14 }),
+    replSetConfigVersion: -1
+  },
+  {
+    _id: 'shard2ReplSet',
+    host: 'shard2ReplSet/localhost:27012',
+    topologyTime: Timestamp({ t: 1781183307, i: 15 }),
+    replSetConfigVersion: -1
+  }
+]
+active mongoses
+[
+  {
+    '8.3.2': 1
+  }
+]
+autosplit
+{
+  'Currently enabled': 'yes'
+}
+balancer
+{
+  'Currently enabled': 'yes',
+  'Failed balancer rounds in last 5 attempts': 0,
+  'Currently running': 'no',
+  'Migration Results for the last 24 hours': 'No recent migrations'
+}
+shardedDataDistribution
+[]
+databases
+[
+  {
+    database: {
+      _id: 'config',
+      primary: 'config',
+      partitioned: true
+    },
+    collections: {}
+  }
+]
+sh.enableSharding("eCommerceDB")
+{
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781183321, i: 23 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781183321, i: 23 })
+}
+sh.shardCollection(
+  "eCommerceDB.orders",
+  { customer_id: "hashed" }
+)
+{
+  collectionsharded: 'eCommerceDB.orders',
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781183331, i: 23 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781183331, i: 22 })
+}
+use eCommerceDB
+switched to db eCommerceDB
+for(let i=0;i<1000;i++){
+  db.orders.insertOne({
+    customer_id:"cust_"+i,
+    amount:Math.random()*100
+  })
+}
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a2ab38a61c9966aaf0fc8a7')
+}
+sh.status()
+shardingVersion
+{
+  _id: ObjectId('6a2ab27c6b6d3217f5080610'),
+  clusterId: ObjectId('6a2ab27c6b6d3217f508060f')
+}
+shards
+[
+  {
+    _id: 'shard1ReplSet',
+    host: 'shard1ReplSet/localhost:27011',
+    topologyTime: Timestamp({ t: 1781183298, i: 14 }),
+    replSetConfigVersion: -1
+  },
+  {
+    _id: 'shard2ReplSet',
+    host: 'shard2ReplSet/localhost:27012',
+    topologyTime: Timestamp({ t: 1781183307, i: 15 }),
+    replSetConfigVersion: -1
+  }
+]
+active mongoses
+[
+  {
+    '8.3.2': 1
+  }
+]
+autosplit
+{
+  'Currently enabled': 'yes'
+}
+balancer
+{
+  'Currently enabled': 'yes',
+  'Currently running': 'no',
+  'Failed balancer rounds in last 5 attempts': 0,
+  'Migration Results for the last 24 hours': 'No recent migrations'
+}
+shardedDataDistribution
+[
+  {
+    ns: 'eCommerceDB.orders',
+    shards: [
+      {
+        shardName: 'shard1ReplSet',
+        numOrphanedDocs: 0,
+        numOwnedDocuments: 491,
+        ownedSizeBytes: 30933,
+        orphanedSizeBytes: 0
+      },
+      {
+        shardName: 'shard2ReplSet',
+        numOrphanedDocs: 0,
+        numOwnedDocuments: 509,
+        ownedSizeBytes: 32067,
+        orphanedSizeBytes: 0
+      }
+    ]
+  },
+  {
+    ns: 'config.system.sessions',
+    shards: [
+      {
+        shardName: 'shard1ReplSet',
+        numOrphanedDocs: 0,
+        numOwnedDocuments: 16,
+        ownedSizeBytes: 1584,
+        orphanedSizeBytes: 0
+      }
+    ]
+  }
+]
+databases
+[
+    database: {
+      _id: 'eCommerceDB',
+      primary: 'shard2ReplSet',
+      version: {
+        uuid: UUID('45dd92fb-82ca-473f-94d5-6ccbb71261ce'),
+        timestamp: Timestamp({ t: 1781183321, i: 11 }),
+        lastMod: 1
+      }
+    },
+    collections: {
+      'eCommerceDB.orders': {
+        shardKey: {
+          customer_id: 'hashed'
+        },
+        unique: false,
+        balancing: true,
+        allowMigrations: true,
+        chunkMetadata: [
+          {
+            shard: 'shard1ReplSet',
+            nChunks: 1
+          },
+          {
+            shard: 'shard2ReplSet',
+            nChunks: 1
+          }
+        ],
+        chunks: [
+          {
+            min: {
+              customer_id: MinKey()
+            },
+            max: {
+              customer_id: 0
+            },
+            'on shard': 'shard2ReplSet',
+            'last modified': Timestamp({ t: 1, i: 0 })
+          },
+          {
+            min: {
+              customer_id: 0
+            },
+            max: {
+              customer_id: MaxKey()
+            },
+            'on shard': 'shard1ReplSet',
+            'last modified': Timestamp({ t: 1, i: 1 })
+          }
+        ],
+        tags: []
+      }
+    }
+  }
+]
+db.orders.getShardDistribution()
+Shard shard2ReplSet at shard2ReplSet/localhost:27012
+{
+  data: '31KiB',
+  docs: 509,
+  chunks: 1,
+  'estimated data per chunk': '31KiB',
+  'estimated docs per chunk': 509
+}
+Shard shard1ReplSet at shard1ReplSet/localhost:27011
+{
+  data: '30KiB',
+  docs: 491,
+  chunks: 1,
+  'estimated data per chunk': '30KiB',
+  'estimated docs per chunk': 491
+}
+Totals
+{
+  data: '62KiB',
+  docs: 1000,
+  chunks: 2,
+  'Shard shard2ReplSet': [
+    '50.9 % data',
+    '50.9 % docs in cluster',
+    '63B avg obj size on shard'
+  ],
+  'Shard shard1ReplSet': [
+    '49.09 % data',
+    '49.1 % docs in cluster',
+    '63B avg obj size on shard'
+  ]
+}
+
+
+
+
+administrator window command
+
+Microsoft Windows [Version 10.0.26200.8457]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>net stop MongoDB
+The MongoDB Server (MongoDB) service is stopping.
+The MongoDB Server (MongoDB) service was stopped successfully.
+
+
+C:\Windows\System32>sc query MongoDB
+
+SERVICE_NAME: MongoDB
+        TYPE               : 10  WIN32_OWN_PROCESS
+        STATE              : 1  STOPPED
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x0
+
+C:\Windows\System32>mkdir C:\sharding
+
+C:\Windows\System32>mkdir C:\sharding\config
+
+C:\Windows\System32>mkdir C:\sharding\shard1
+
+C:\Windows\System32>mkdir C:\sharding\shard2
+
+C:\Windows\System32>
+C:\Windows\System32>mkdir C:\sharding
+A subdirectory or file C:\sharding already exists.
+
+C:\Windows\System32>mkdir C:\sharding\config
+A subdirectory or file C:\sharding\config already exists.
+
+C:\Windows\System32>netstat -ano | findstr 27017
+  TCP    127.0.0.1:53454        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:53455        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:62025        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:62037        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:62041        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:62067        127.0.0.1:27017        TIME_WAIT       0
+
+C:\Windows\System32>netstat -ano | findstr 27019
+  TCP    127.0.0.1:61859        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:61866        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:61883        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:61884        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62022        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62024        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62031        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62050        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62051        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62052        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62053        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62054        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62070        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62071        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62072        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62073        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62082        127.0.0.1:27019        TIME_WAIT       0
+  TCP    127.0.0.1:62110        127.0.0.1:27019        TIME_WAIT       0
+
+C:\Windows\System32>netstat -ano | findstr 27011
+  TCP    127.0.0.1:61914        127.0.0.1:27011        TIME_WAIT       0
+  TCP    127.0.0.1:62102        127.0.0.1:27011        TIME_WAIT       0
+  TCP    127.0.0.1:62104        127.0.0.1:27011        TIME_WAIT       0
+
+C:\Windows\System32>netstat -ano | findstr 27012
+  TCP    127.0.0.1:61963        127.0.0.1:27012        TIME_WAIT       0
+  TCP    127.0.0.1:61992        127.0.0.1:27012        TIME_WAIT       0
+  TCP    127.0.0.1:62097        127.0.0.1:27012        TIME_WAIT       0
+  TCP    127.0.0.1:62098        127.0.0.1:27012        TIME_WAIT       0
+  TCP    127.0.0.1:62105        127.0.0.1:27012        TIME_WAIT       0
+
+C:\Windows\System32>net start MongoDB
+The MongoDB Server (MongoDB) service is starting.
+The MongoDB Server (MongoDB) service was started successfully.
+
+
+C:\Windows\System32>sc query MongoDB
+
+SERVICE_NAME: MongoDB
+        TYPE               : 10  WIN32_OWN_PROCESS
+        STATE              : 4  RUNNING
+                                (STOPPABLE, NOT_PAUSABLE, ACCEPTS_PRESHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x0
+
+C:\Windows\System32>netstat -ano | findstr 27017
+  TCP    127.0.0.1:27017        0.0.0.0:0              LISTENING       7204
+  TCP    127.0.0.1:53454        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:53455        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:53512        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:53513        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:62025        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:62037        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:62041        127.0.0.1:27017        TIME_WAIT       0
+  TCP    127.0.0.1:62067        127.0.0.1:27017        TIME_WAIT       0
+
+C:\Windows\System32>
